@@ -173,14 +173,14 @@ public class Concordance {
             return;
         }
 
-        // Tree map to keep the keys sorted.
-        // Word would be the key in this case so it would sorted in alphabetical order.
-        TreeMap<String, WordStat> map = new TreeMap<>();
+        // Add word as key to the map. Update WordStat during scan.
+        Map<String, WordStat> map = new HashMap<>();
 
         // Scan the text to populate words with stats
         scanText(new String(bytes), map);
 
-        Set<String> words = map.keySet();
+        // Sort words
+        List<String> words = map.keySet().stream().sorted().collect(Collectors.toList());
 
         // Evaluate max padding for words
         Optional<String> maxLenString = words.stream().max(Comparator.comparingInt(String::length));
